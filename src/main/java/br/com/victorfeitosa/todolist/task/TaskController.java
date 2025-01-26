@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.victorfeitosa.todolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,10 +55,21 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public TaskModel update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
+    public ResponseEntity update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
+        var task = this.taskRepository.findById(id).orElse(null);
+
+        if(task == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tarefa não encontrada");
+        }
+
         var idUser = request.getAttribute("idUser");
-        taskModel.setIdUser((UUID) idUser);
-        taskModel.setId(id);
-        return this.taskRepository.save(taskModel);
+
+        if(!task.getIdUser().equals(idUser)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário não tem permissão para alterar essa tarefa");
+        }
+
+        Utils.copyNonNullProperties(taskModel, task);
+        var taskUpdated = this.taskRepository.save(task);
+        return ResponseEntity.ok().body(taskUpdated);
     }
 }
