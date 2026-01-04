@@ -9,10 +9,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.Data; // Lombok para usar o getter e setter encapsulados
 
-// @Getter //Only Getter
-// @Setter //Ony Setter
+// @Getter //Only Getter -> Lombok
+// @Setter //Ony Setter -> Lombok
 @Data
 @Entity(name = "tb_users")
 public class UserModel {
