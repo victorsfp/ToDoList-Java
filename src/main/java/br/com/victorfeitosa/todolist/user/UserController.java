@@ -18,6 +18,17 @@ public class UserController {
     @Autowired //Gerencia todo ciclo do spring 
     private IUserRepository userRepository;
     
+    /**
+     * String (texto)
+     * Integer (números inteiros)
+     * Double (números decimais)
+     * Boolean (true/false)
+     * ResponseEntity (retorno mais completo)
+     * Float (float)
+     * char (A,B,C...)
+     * Date (data)
+     * void
+     */
     @PostMapping("/")
     public ResponseEntity create(@RequestBody UserModel userModel) {
         var user = this.userRepository.findByUsername(userModel.getUsername());
