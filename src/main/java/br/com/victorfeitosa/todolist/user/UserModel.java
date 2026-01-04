@@ -13,7 +13,7 @@ import lombok.Data; // Lombok para usar o getter e setter encapsulados
 
 // @Getter //Only Getter -> Lombok
 // @Setter //Ony Setter -> Lombok
-@Data
+@Data // Getter and Setter -> Lombok
 @Entity(name = "tb_users")
 public class UserModel {
 
